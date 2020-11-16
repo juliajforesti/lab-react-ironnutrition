@@ -26,17 +26,29 @@ function App() {
     console.log(filtered);
     setState({ ...state, filteredFoodList: [...filtered] });
   }
+
   function handlePlusClick(name, cal, quantity) {
     let currentToday = [...state.todaysList];
-    currentToday.push({ name: name, calories: cal, quantity: quantity });
-    setState({ ...state, todaysList: currentToday });
+    let currentNames = [...state.todaysList.map(item => item.name)]
+    if (currentNames.includes(name)){
+      currentToday.forEach(item => {
+        if (item.name === name){
+          item.calories += cal;
+          item.quantity += quantity;
+        }
+      })
+    } else {
+      currentToday.push({ name: name, calories: cal, quantity: quantity });
+    }
+    return setState({ ...state, todaysList: currentToday });
   }
+
   return (
     <div className="App">
-      <h1 className="title m-5">Iron-nutrition</h1>
+      <h1 className="h1 m-5">IronNutrition</h1>
 
       <FoodSearch state={state} setState={setState} filterFood={filterFood} />
-      
+
       <div className="d-flex flex-column align-items-center mx-3">
         {state.toggleForm ? (
           <button onClick={handleToggle} className="button is-info my-3 w-50">
@@ -53,15 +65,21 @@ function App() {
       </div>
       <div className="d-flex align-items-start justify-content-around p-2">
         <div>
-          {state.isSearching ? (
-            state.filteredFoodList.map((food, i) => (
-              <FoodBox food={food} key={i} handlePlusClick={handlePlusClick} />
-            ))
-          ) : (
-            state.foodList.map((food, i) => (
-              <FoodBox food={food} key={i} handlePlusClick={handlePlusClick} />
-            ))
-          )}
+          {state.isSearching
+            ? state.filteredFoodList.map((food, i) => (
+                <FoodBox
+                  food={food}
+                  key={i}
+                  handlePlusClick={handlePlusClick}
+                />
+              ))
+            : state.foodList.map((food, i) => (
+                <FoodBox
+                  food={food}
+                  key={i}
+                  handlePlusClick={handlePlusClick}
+                />
+              ))}
         </div>
         <FoodOfTheDay state={state} setState={setState} />
       </div>

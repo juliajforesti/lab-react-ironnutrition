@@ -1,6 +1,7 @@
 import React from 'react';
 
 const FoodOfTheDay = (props) => {
+
   function handleRemove(itemIdx) {
     let newList = [...props.state.todaysList];
     newList.splice(itemIdx, 1);
@@ -17,7 +18,7 @@ const FoodOfTheDay = (props) => {
             <i
               onClick={() => handleRemove(i)}
               style={{ cursor: 'pointer' }}
-              className="fa fa-times"
+              className="fa fa-trash"
               aria-hidden="true"
             ></i>{' '}
           </li>
@@ -26,7 +27,10 @@ const FoodOfTheDay = (props) => {
       <p className="h4 mt-5">
         Total:{' '}
         {props.state.todaysList.reduce(
-          (acc, cv) => acc + cv.quantity * cv.calories,
+          (acc, cv) => {
+            console.log(cv)
+            return acc + cv.calories
+          },
           0
         )}
         cal
