@@ -28,8 +28,7 @@ const FoodOfTheDay = (props) => {
         Total:{' '}
         {props.state.todaysList.reduce(
           (acc, cv) => {
-            console.log(cv)
-            return acc + cv.calories
+            return acc + Number(cv.calories)
           },
           0
         )}

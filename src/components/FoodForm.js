@@ -20,7 +20,7 @@ const FoodForm = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     foods.push({
-      name: input.name,
+      name: input.name[0].toUpperCase() + input.name.slice(1).toLowerCase(),
       calories: input.calories,
       image:
         'https://www.comidaereceitas.com.br/wp-content/uploads/2017/11/burrito_atum.jpg',
@@ -41,7 +41,7 @@ const FoodForm = (props) => {
         />
         <input
           onChange={handleChange}
-          type="text"
+          type="number"
           name="calories"
           value={input.calories}
           placeholder="200"

@@ -8,6 +8,7 @@ import FoodSearch from './components/FoodSearch';
 import FoodOfTheDay from './components/FoodOfTheDay';
 
 function App() {
+  
   const [state, setState] = useState({
     foodList: [...foods.sort((a, b) => a.name.localeCompare(b.name))],
     filteredFoodList: [...foods.sort((a, b) => a.name.localeCompare(b.name))],
@@ -16,24 +17,27 @@ function App() {
     todaysList: [],
     totalCal: 0,
   });
+
   function handleToggle() {
     setState({ ...state, toggleForm: !state.toggleForm });
   }
+
   function filterFood(input) {
     const filtered = state.foodList.filter((item) =>
       item.name.toLowerCase().includes(input.toLowerCase())
     );
-    console.log(filtered);
     setState({ ...state, filteredFoodList: [...filtered] });
   }
 
   function handlePlusClick(name, cal, quantity) {
-    let currentToday = [...state.todaysList];
+    let currentToday = [...state.todaysList].map(item => {
+      return {...item, calories: Number(item.calories)}
+    });
     let currentNames = [...state.todaysList.map(item => item.name)]
     if (currentNames.includes(name)){
       currentToday.forEach(item => {
         if (item.name === name){
-          item.calories += cal;
+          item.calories += Number(cal);
           item.quantity += quantity;
         }
       })
